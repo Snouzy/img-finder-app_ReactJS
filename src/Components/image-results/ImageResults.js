@@ -7,10 +7,13 @@ import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 
 class ImageResults extends Component {
-   state = {
-      open: false,
-      currentImg: ''
-   };
+   constructor(props) {
+      super(props);
+      this.state = {
+         open: false,
+         currentImg: ''
+      };
+   }
 
    handleOpen = img => {
       this.setState({ open: true, currentImg: img });
@@ -38,13 +41,13 @@ class ImageResults extends Component {
                         }
                         actionIcon={
                            <IconButton
-                              onClick={() => this.handleOpen(img.largeImageURL)}
+                              onClick={() => this.handleOpen(img.webformatURL)}
                            >
                               <ZoomIn color="white" />
                            </IconButton>
                         }
                      >
-                        <img src={img.largeImageURL} alt="" />
+                        <img src={img.webformatURL} alt="" />
                      </GridTile>
                   );
                })}
@@ -58,7 +61,12 @@ class ImageResults extends Component {
       ];
 
       return (
-         <div>
+         <div
+            style={{
+               minHeight: `${this.state.currentImg.webformatHeight}px`,
+               width: `${this.state.currentImg.webformatWidth}px`
+            }}
+         >
             {imageListContent}
             <Dialog
                actions={actions}
@@ -69,7 +77,10 @@ class ImageResults extends Component {
                <img
                   src={this.state.currentImg}
                   alt=""
-                  style={{ width: '100%' }}
+                  style={{
+                     width: `${this.state.currentImg.webformatWidth}px`,
+                     height: `${this.state.currentImg.webformatHeight}px`
+                  }}
                />
             </Dialog>
          </div>
@@ -80,5 +91,4 @@ class ImageResults extends Component {
 ImageResults.propTypes = {
    images: PropTypes.array.isRequired
 };
-
 export default ImageResults;
